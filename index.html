@@ -50,17 +50,11 @@
 </body>
 <script type="text/javascript" src="./node_modules/jQuery/tmp/jquery.js"></script>
 <script type="text/javascript">
+$('.images>img:nth-child(1)').addClass('current')
+$('.images>img:nth-child(2)').addClass('enter')
+$('.images>img:nth-child(3)').addClass('enter')
 
-initialization()
-setInterval(()=>{
-  makeLeave(getImage(n))
-   .one('transitionend',(e)=>{
-  makeEnter(e.currentTarget)
-  })
-  makeCurrent(getImage(n+1))
-  n++;
-},3000)
-
+let n = 1
 function x(n){
   if(n>3){
     n = n%3
@@ -70,25 +64,26 @@ function x(n){
   }
   return n
 }
-function initialization(){
-  n = 1
-  $(`.images>img:nth-child(${n})`).addClass('current')
-                                .siblings().addClass('enter')
-}
-function getImage(n){
-   return  $(`.images>img:nth-child(${x(n)})`)
-}
-function makeCurrent($node){
-  $node.removeClass().addClass('current')
-  return $node
-}
-function makeLeave($node){
-  $node.removeClass().addClass('leave')
-  return $node
-}
-function makeEnter($node){
-  $node.removeClass().addClass('enter')
-  return $node
-}
+let timer =  setInterval(()=>{
+  $(`.images>img:nth-child(${x(n)})`).removeClass('current').addClass('leave').one('transitionend',(e)=>{
+    $(e.currentTarget).removeClass('leave').addClass('enter')
+  })
+  $(`.images>img:nth-child(${x(n+1)})`).removeClass('enter').addClass('current')
+  n++;
+},500)
+
+document.addEventListener('visibilitychange',(e)=>{
+  if(document.hidden){
+    window.clearInterval(timer)
+  }else{
+    timer = setInterval(()=>{
+      $(`.images>img:nth-child(${x(n)})`).removeClass('current').addClass('leave').one('transitionend',(e)=>{
+        $(e.currentTarget).removeClass('leave').addClass('enter')
+      })
+      $(`.images>img:nth-child(${x(n+1)})`).removeClass('enter').addClass('current')
+      n++;
+    },500)
+  }
+})
 </script>
 </html>
