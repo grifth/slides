@@ -1,0 +1,21 @@
+*{margin: 0;padding: 0;}
+*{box-sizing: border-box;}
+
+.window{
+  width: 600px;
+  height: 400px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.slides{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  transition: all .5s;
+}
+
+.slides > img{
+  width: 600px;
+  height: 400px;
+}
