@@ -8,7 +8,12 @@ makeFakeSlides()
 $slides.css({transform:`translateX(-600px)`})
 
 bindEvents()
-
+$(next).on('click',()=>{
+  goToSlide(current+1)
+})
+$(previous).on('click',()=>{
+  goToSlide(current-1)
+})
 
 
 function bindEvents(){
@@ -20,6 +25,11 @@ function bindEvents(){
 }
 
 function goToSlide(index){
+  if(index>$buttons.length-1){
+    index = 0
+  }else if(index<0){
+    index = $buttons.length-1
+  }
   if(current === $buttons.length -1 && index ===0){
     //最后一张到第一张
     $slides.css({transform:`translateX(${-($buttons.length+1)*600}px)`})
